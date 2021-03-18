@@ -1,32 +1,51 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+      >
+        <span class="mr-2">Todo-App</span>
+        <!-- <v-icon>mdi-open-in-new</v-icon> -->
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <TODO :item='updateItem' @resetUpdate="resetUpdate"/>
+      <TODOLIST/>
+      <TODOITEM @updateTodo="setUpdateForm" :resetEdit ="edit"/>
+    </v-main>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import TODO from './components/TodoForm'
+import TODOLIST from './components/TodoList'
+import TODOITEM from './components/TodoItem'
 
-#nav {
-  padding: 30px;
-}
+export default {
+  name: 'App',
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  components: {
+    TODO, TODOLIST, TODOITEM
+  },
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+  data: () => ({
+    updateItem: [],
+    edit: false
+  }),
+  methods: {
+    setUpdateForm (item) {
+      this.updateItem = item
+    },
+    resetUpdate () {
+      this.edit = true
+    }
+  }
 }
-</style>
+</script>
